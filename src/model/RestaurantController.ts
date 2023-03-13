@@ -20,7 +20,7 @@ class RestaurantController {
   }
 
   deleteById(id: number) {
-    this._restaurantList = this._restaurantList.filter(restaurant => restaurant.id !== id);
+    this._restaurantList = this._restaurantList.filter(restaurant => restaurant.id !== Number(id));
   }
 
   filterByLiked() {

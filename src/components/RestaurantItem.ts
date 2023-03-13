@@ -13,9 +13,10 @@ export default class RestaurantItem {
   }
 
   createRestaurantItem(): HTMLElement {
-    const { name, category, distance, description, isLike } = this._restaurantInfo;
+    const { id, name, category, distance, description, isLike } = this._restaurantInfo;
 
     const $restaurantItem = document.createElement('li');
+    $restaurantItem.setAttribute('id', `${id}`);
     $restaurantItem.classList.add('restaurant');
     $restaurantItem.innerHTML = `
       <div class="restaurant__category">

@@ -70,6 +70,7 @@ export default class detailRestaurantModal {
       event.preventDefault();
 
       this._restaurantController.deleteById(this._restaurant.id!);
+
       this._state.restaurants = this._restaurantController.getRestaurants();
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this._state));
 

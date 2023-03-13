@@ -230,6 +230,8 @@ export default class App {
     const restaurantInfo = restaurantElement.closest('.restaurant');
     if (!restaurantInfo) return;
 
+    const id = restaurantInfo.id;
+
     const categoryImg = restaurantInfo.querySelector('.category-icon') as HTMLImageElement;
     const category = categoryImg.alt as Category;
 
@@ -243,11 +245,10 @@ export default class App {
     const favoriteIconElement = restaurantInfo.querySelector('.favorite-icon') as HTMLImageElement;
     const isLike = favoriteIconElement.dataset.like === 'true';
 
-    // 설명 정보 가져오기
     const descriptionElement = restaurantInfo.querySelector('.restaurant__description') as HTMLElement;
     const description = descriptionElement.textContent;
 
-    const restaurantData = { category, name, distance, isLike, description };
+    const restaurantData = { id, category, name, distance, isLike, description };
     this.openDetailModal(restaurantData);
   }
 
