@@ -200,9 +200,9 @@ export default class App {
 
   private renderRestaurantList(): void {
     const $restaurantList = this.$target.querySelector('.restaurant-list') as HTMLElement;
-
     $restaurantList.innerHTML = '';
     this._state.restaurants.forEach(restaurant => {
+      //console.log($restaurantList);
       new RestaurantItem($restaurantList, restaurant);
     });
   }
@@ -216,6 +216,39 @@ export default class App {
 
     const sortFilter = this.$target.querySelector('#sorting-filter') as HTMLSelectElement;
     sortFilter.addEventListener('change', this.handleSortingFilterChange.bind(this));
+
+    const $restaurantList = this.$target.querySelector('.restaurant-list') as HTMLElement;
+    $restaurantList.addEventListener('click', this.handleRestaurantClick.bind(this));
+  }
+
+  private openDetailModal(restaurantData: { category: Category; name: string; distance: number }) {
+    new detailRestaurantModal(this._restaurantController, restaurantData, this._state);
+  }
+
+  private handleRestaurantClick(event: MouseEvent) {
+    const restaurantElement = event.target as HTMLElement;
+    const restaurantInfo = restaurantElement.closest('.restaurant');
+    if (!restaurantInfo) return;
+
+    const categoryImg = restaurantInfo.querySelector('.category-icon') as HTMLImageElement;
+    const category = categoryImg.alt as Category;
+
+    const nameElement = restaurantInfo.querySelector('.restaurant__name') as HTMLHeadingElement;
+    const name = nameElement.textContent!;
+
+    const distanceElement = restaurantInfo.querySelector('.restaurant__distance') as HTMLSpanElement;
+    const minutes = distanceElement!.textContent!.split(' ')[1]; // '캠퍼스부터 X분 내'에서 X 부분만 추출
+    const distance = parseInt(minutes.slice(0, -1)); // '분'을 제외하고 숫자만 추출
+
+    const favoriteIconElement = restaurantInfo.querySelector('.favorite-icon') as HTMLImageElement;
+    const isLike = favoriteIconElement.dataset.like === 'true';
+
+    // 설명 정보 가져오기
+    const descriptionElement = restaurantInfo.querySelector('.restaurant__description') as HTMLElement;
+    const description = descriptionElement.textContent;
+
+    const restaurantData = { category, name, distance, isLike, description };
+    this.openDetailModal(restaurantData);
   }
 
   private handleCategoryFilterChange(event: Event): void {

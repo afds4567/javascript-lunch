@@ -8,6 +8,7 @@ export default class RestaurantItem {
   constructor($target: HTMLElement, restaurant: Restaurant) {
     this.$target = $target;
     this._restaurantInfo = restaurant;
+    //console.log($target);
     this.render();
   }
 
@@ -39,7 +40,6 @@ export default class RestaurantItem {
       e.stopPropagation();
       this.toggleLike.call(this, e);
     });
-    $restaurantItem.addEventListener('click', this.handleClick.bind(this));
 
     return $restaurantItem;
   }
@@ -60,14 +60,7 @@ export default class RestaurantItem {
     }
 
     const event = new CustomEvent('restaurantLikeToggled');
-    document.dispatchEvent(event);
-  }
-
-  private handleClick(): void {
-    const event = new CustomEvent('restaurantItemClicked', {
-      detail: this._restaurantInfo,
-    });
-    document.dispatchEvent(event);
+    this.$target.dispatchEvent(event);
   }
 
   private render(): void {
